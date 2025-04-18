@@ -23,8 +23,7 @@ class NotFound extends StatelessWidget {
             );
           },
           onEnd: () {
-            Future.delayed(Duration(milliseconds: 50), () {
-
+            Future.delayed(Duration(seconds: 2), () {
               Navigator.pushReplacement(
                 context,
                 PageRouteBuilder(

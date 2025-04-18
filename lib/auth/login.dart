@@ -27,7 +27,6 @@ class Login extends StatelessWidget {
                       color: Color(0xFF780000),
                       fontWeight: FontWeight.bold,
                       fontSize: 60,
-
                     ),
                   ),
                 ),
@@ -46,8 +45,7 @@ class Login extends StatelessWidget {
                             fontSize: 12,
                             fontWeight: FontWeight.bold,
                           ),
-                          prefixIcon:
-                          Icon(Icons.person, color: Color(0xff780000)),
+                          prefixIcon: Icon(Icons.person, color: Color(0xff780000)),
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.all(Radius.circular(20)),
                           ),
@@ -71,17 +69,13 @@ class Login extends StatelessWidget {
                             fontSize: 12,
                             fontWeight: FontWeight.bold,
                           ),
-                          prefixIcon:
-                          Icon(Icons.lock, color: Color(0XFF780000)),
-                          suffixIcon:
-                          Icon(Icons.visibility, color: Color(0xff780000)),
+                          prefixIcon: Icon(Icons.lock, color: Color(0XFF780000)),
+                          suffixIcon: Icon(Icons.visibility, color: Color(0xff780000)),
                           border: OutlineInputBorder(
-                            borderRadius:
-                            BorderRadius.all(Radius.circular(20.0)),
+                            borderRadius: BorderRadius.all(Radius.circular(20.0)),
                           ),
                           focusedBorder: OutlineInputBorder(
-                            borderRadius:
-                            BorderRadius.all(Radius.circular(20.0)),
+                            borderRadius: BorderRadius.all(Radius.circular(20.0)),
                             borderSide: BorderSide(color: Color(0xff780000)),
                           ),
                         ),
@@ -131,11 +125,101 @@ class Login extends StatelessWidget {
                           ),
                         ),
                       ),
-
-
+                      SizedBox(height: 20),
+                      Row(
+                        children: <Widget>[
+                          Expanded(child: Divider(thickness: 1)),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 9),
+                            child: Text(
+                              "OR",
+                              style: TextStyle(
+                                fontSize: 14,
+                                color: Colors.black54,
+                              ),
+                            ),
+                          ),
+                          Expanded(child: Divider(thickness: 1)),
+                        ],
+                      ),
+                      SizedBox(height: 20),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 20),
+                        child: ElevatedButton(
+                          onPressed: () async {
+                            try {
+                              final account = await _googleSignIn.signIn();
+                              if (account != null) {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(builder: (context) => User()),
+                                );
+                              }
+                            } catch (error) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(content: Text('Google Sign In Failed')),
+                              );
+                            }
+                          },
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.white,
+                            foregroundColor: Colors.black,
+                            elevation: 2,
+                            minimumSize: Size(300, 50),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                          ),
+                          child: RichText(
+                            text: TextSpan(
+                              style: TextStyle(
+                                fontSize: 16,
+                              ),
+                              children: [
+                                TextSpan(
+                                  text: 'Login In With ',
+                                  style: TextStyle(
+                                      color: Colors.black, fontSize: 13),
+                                ),
+                                TextSpan(
+                                  text: 'Google',
+                                  style: TextStyle(
+                                    color: Color(0xff05064e),
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                      SizedBox(height: 30),
+                      TextButton(
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => SignUpScreen()),
+                          );
+                        },
+                        child: Text.rich(
+                          TextSpan(
+                            text: 'Don\'t have an account?',
+                            style: TextStyle(color: Colors.black87),
+                            children: [
+                              TextSpan(
+                                text: ' Sign Up Now',
+                                style: TextStyle(
+                                  color: Color(0xff780000),
+                                ),
+                              ),
+                            ],
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
                     ],
                   ),
-                )
+                ),
               ],
             ),
           ),
