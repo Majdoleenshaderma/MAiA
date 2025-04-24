@@ -8,6 +8,8 @@ class Login extends StatelessWidget {
   final TextEditingController passwordController = TextEditingController();
   final GoogleSignIn _googleSignIn = GoogleSignIn();
 
+  Login({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

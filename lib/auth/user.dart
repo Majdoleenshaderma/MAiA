@@ -1,16 +1,5 @@
 import 'package:flutter/material.dart';
-
-class userModel {
-  final int id;
-  final String name;
-  final String phon;
-
-  userModel({
-    required this.id,
-    required this.phon,
-    required this.name,
-  });
-}
+import 'login.dart';
 
 class User extends StatefulWidget {
   @override
@@ -19,37 +8,70 @@ class User extends StatefulWidget {
 
 class _UserState extends State<User> {
   int _currentIndex = 1;
-
-  List<userModel> users = [
-    userModel(id: 1, name: "Majdoleen M M Shaderma", phon: "+798211956"),
-    userModel(id: 2, phon: "+796452644", name: "Ahmad M M Shaderma"),
-    userModel(id: 3, phon: "+792468534", name: "Nour M M Shaderma"),
-    userModel(id: 4, phon: "+796539215", name: "Batoul M M Shaderma"),
-    userModel(id: 5, name: "Majdoleen M M Shaderma", phon: "+798211956"),
-    userModel(id: 6, phon: "+796452644", name: "Ahmad M M Shaderma"),
-    userModel(id: 7, phon: "+792468534", name: "Nour M M Shaderma"),
-    userModel(id: 8, phon: "+796539215", name: "Batoul M M Shaderma"),
-  ];
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldKey,
       backgroundColor: Colors.white,
       appBar: AppBar(
-        backgroundColor: Colors.grey,
-        title: Text("Users"),
-      ),
-      body: ListView.separated(
-        itemBuilder: (context, index) => buildUserItem(users[index]),
-        separatorBuilder: (context, index) => Padding(
-          padding: const EdgeInsetsDirectional.only(start: 20),
-          child: Container(
-            width: double.infinity,
-            height: 2,
-            color: Colors.grey[300],
-          ),
+        backgroundColor: Colors.white,
+
+        elevation: 0,
+        title: Row(
+
+          children: [
+            Spacer(),
+            IconButton(
+              icon: Icon(Icons.book, color: Color(0xff05064e)),
+              onPressed: () {
+                _scaffoldKey.currentState?.openDrawer();
+              },
+            ),
+          ],
         ),
-        itemCount: users.length,
+      ),
+      drawer: Drawer(
+        backgroundColor: Colors.white,
+        child: Column(
+          children: [
+            Container(
+              padding: EdgeInsets.only(left: 16, top: 40, bottom: 8),
+              alignment: Alignment.centerLeft,
+              child: Text(
+                'History',
+                style: TextStyle(
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black,
+                ),
+              ),
+            ),
+            Divider(color: Colors.grey[300]),
+            ListTile(
+              leading: Icon(Icons.history),
+              title: Text('Recent Activity'),
+              onTap: () {
+                Navigator.pop(context);
+              },
+            ),
+            Spacer(),
+            ListTile(
+              leading: Icon(Icons.logout, color: Color(0xff780000)),
+              title: Text(
+                'Log out',
+                style: TextStyle(color: Color(0xff780000)),
+              ),
+              onTap: () {
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(builder: (context) => Login()),
+                );
+              },
+            ),
+          ],
+        ),
       ),
       bottomNavigationBar: Container(
         height: 70,
@@ -84,8 +106,13 @@ class _UserState extends State<User> {
               },
             ),
             IconButton(
-              icon: Icon(Icons.tonality,
-                  color: _currentIndex == 2 ? Color(0xff05064e) : Colors.grey),
+              icon: Image.asset(
+                'assets/images/mirror.png',
+                width: 26,
+                height: 26,
+                color: _currentIndex == 2 ? Color(0xff05064e) : Colors.grey,
+                colorBlendMode: BlendMode.modulate,
+              ),
               onPressed: () {
                 setState(() {
                   _currentIndex = 2;
@@ -97,44 +124,4 @@ class _UserState extends State<User> {
       ),
     );
   }
-
-  Widget buildUserItem(userModel user) => Padding(
-    padding: const EdgeInsets.all(15.0),
-    child: Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        CircleAvatar(
-          radius: 30,
-          backgroundColor: Colors.black,
-          child: Text(
-            '${user.id}',
-            style: TextStyle(
-              fontWeight: FontWeight.bold,
-              color: Colors.white,
-            ),
-          ),
-        ),
-        SizedBox(width: 20),
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              '${user.name}',
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 20,
-              ),
-            ),
-            SizedBox(height: 8),
-            Text(
-              '${user.phon}',
-              style: TextStyle(
-                color: Colors.grey,
-              ),
-            ),
-          ],
-        ),
-      ],
-    ),
-  );
 }
