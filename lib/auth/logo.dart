@@ -14,9 +14,10 @@ class NotFound extends StatelessWidget {
           builder: (context, value, child) {
             return FittedBox(
               child: Text(
-                'MAiA',
+                'mAIa',
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
+
                   fontSize: value,
                   color: Color(0xff780000),
                 ),

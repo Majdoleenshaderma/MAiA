@@ -9,27 +9,31 @@ class User extends StatefulWidget {
 class _UserState extends State<User> {
   int _currentIndex = 1;
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+  final TextEditingController _controller = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       key: _scaffoldKey,
       backgroundColor: Colors.white,
+      resizeToAvoidBottomInset: true,
       appBar: AppBar(
         backgroundColor: Colors.white,
-
         elevation: 0,
-        title: Row(
-
-          children: [
-            Spacer(),
-            IconButton(
-              icon: Icon(Icons.book, color: Color(0xff05064e)),
-              onPressed: () {
-                _scaffoldKey.currentState?.openDrawer();
-              },
-            ),
-          ],
+        centerTitle: true,
+        title: Text(
+          'mAIa',
+          style: TextStyle(
+            color: Color(0xff780000),
+            fontWeight: FontWeight.bold,
+            fontSize: 30,
+          ),
+        ),
+        leading: IconButton(
+          icon: Icon(Icons.book, color: Color(0xff05064e)),
+          onPressed: () {
+            _scaffoldKey.currentState?.openDrawer();
+          },
         ),
       ),
       drawer: Drawer(
@@ -42,9 +46,9 @@ class _UserState extends State<User> {
               child: Text(
                 'History',
                 style: TextStyle(
-                  fontSize: 24,
+                  fontSize: 25,
                   fontWeight: FontWeight.bold,
-                  color: Colors.black,
+                  color: Color(0xff05064e),
                 ),
               ),
             ),
@@ -72,6 +76,56 @@ class _UserState extends State<User> {
             ),
           ],
         ),
+      ),
+      body: Stack(
+        children: [
+          Padding(
+            padding: const EdgeInsets.fromLTRB(24, 24, 24, 100),
+            child: SingleChildScrollView(
+              child: Column(
+                children: [
+                  SizedBox(height: 50),
+                  Center(
+                    child: Text(
+                      'Welcome',
+                      style: TextStyle(
+                        fontSize: 28,
+                        fontWeight: FontWeight.bold,
+                        color: Color(0xff05064e),
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: 1000),
+                ],
+              ),
+            ),
+          ),
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(24, 0, 24, 20),
+              child: TextField(
+                controller: _controller,
+                decoration: InputDecoration(
+                  hintText: 'Ask mAIa...',
+                  contentPadding: EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+                  filled: true,
+                  fillColor: Colors.grey[100],
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(15),
+                    borderSide: BorderSide.none,
+                  ),
+                  suffixIcon: IconButton(
+                    icon: Icon(Icons.send, color: Color(0xff780000)),
+                    onPressed: () {
+                      print("تم الإرسال: ${_controller.text}");
+                    },
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ],
       ),
       bottomNavigationBar: Container(
         height: 70,
