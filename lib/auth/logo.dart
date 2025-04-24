@@ -5,6 +5,7 @@ class NotFound extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       body: Center(
         child: TweenAnimationBuilder<double>(
           duration: Duration(seconds: 3),

@@ -15,7 +15,7 @@ class Login extends StatelessWidget {
       body: SingleChildScrollView(
         child: Center(
           child: Padding(
-            padding: const EdgeInsets.only(top: 100),
+            padding: const EdgeInsets.only(top: 70),
             child: Column(
               children: <Widget>[
                 Padding(
@@ -163,12 +163,10 @@ class Login extends StatelessWidget {
                           },
                           style: ElevatedButton.styleFrom(
                             backgroundColor: Colors.white,
-                            foregroundColor: Colors.black,
+
                             elevation: 2,
-                            minimumSize: Size(300, 50),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(12),
-                            ),
+                            minimumSize: Size(350, 50),
+
                           ),
                           child: RichText(
                             text: TextSpan(
@@ -193,7 +191,7 @@ class Login extends StatelessWidget {
                           ),
                         ),
                       ),
-                      SizedBox(height: 30),
+                      SizedBox(height: 60),
                       TextButton(
                         onPressed: () {
                           Navigator.push(
