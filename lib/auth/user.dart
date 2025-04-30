@@ -10,6 +10,8 @@ class _UserState extends State<User> {
   int _currentIndex = 1;
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   final TextEditingController _controller = TextEditingController();
+  final List<String> _messages = [];
+  final ScrollController _scrollController = ScrollController();
 
   @override
   Widget build(BuildContext context) {
@@ -77,49 +79,77 @@ class _UserState extends State<User> {
           ],
         ),
       ),
-      body: Stack(
+      body: Column(
         children: [
-          Padding(
-            padding: const EdgeInsets.fromLTRB(24, 24, 24, 100),
-            child: SingleChildScrollView(
-              child: Column(
-                children: [
-                  SizedBox(height: 50),
-                  Center(
-                    child: Text(
-                      'Welcome',
-                      style: TextStyle(
-                        fontSize: 28,
-                        fontWeight: FontWeight.bold,
-                        color: Color(0xff05064e),
+          Expanded(
+            child: _messages.isEmpty
+                ? Center(
+              child: Text(
+                'Welcome',
+                style: TextStyle(
+                  fontSize: 28,
+                  fontWeight: FontWeight.bold,
+                  color: Color(0xff05064e),
+                ),
+              ),
+            )
+                : ListView.builder(
+              controller: _scrollController,
+              padding: EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+              itemCount: _messages.length,
+              itemBuilder: (context, index) {
+                final message = _messages[index];
+                return Align(
+                  alignment: Alignment.centerLeft,
+                  child: ConstrainedBox(
+                    constraints: BoxConstraints(
+                      maxWidth: MediaQuery.of(context).size.width * 0.8,
+                    ),
+                    child: Container(
+                      margin: EdgeInsets.only(bottom: 12),
+                      padding: EdgeInsets.all(12),
+                      decoration: BoxDecoration(
+                        color: Colors.grey[200],
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: Text(
+                        message,
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 16,
+                        ),
                       ),
                     ),
                   ),
-                  SizedBox(height: 1000),
-                ],
-              ),
+                );
+              },
             ),
           ),
-          Align(
-            alignment: Alignment.bottomCenter,
-            child: Padding(
-              padding: const EdgeInsets.fromLTRB(24, 0, 24, 20),
-              child: TextField(
-                controller: _controller,
-                decoration: InputDecoration(
-                  hintText: 'Ask mAIa...',
-                  contentPadding: EdgeInsets.symmetric(horizontal: 20, vertical: 16),
-                  filled: true,
-                  fillColor: Colors.grey[100],
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(15),
-                    borderSide: BorderSide.none,
-                  ),
-                  suffixIcon: IconButton(
-                    icon: Icon(Icons.send, color: Color(0xff780000)),
-                    onPressed: () {
-                      print("تم الإرسال: ${_controller.text}");
-                    },
+          Padding(
+            padding: const EdgeInsets.fromLTRB(24, 0, 24, 20),
+            child: ConstrainedBox(
+              constraints: BoxConstraints(
+                minHeight: 50,
+                maxHeight: 200,
+              ),
+              child: Scrollbar(
+                child: TextField(
+                  controller: _controller,
+                  maxLines: null,
+                  decoration: InputDecoration(
+                    hintText: 'Ask mAIa...',
+                    contentPadding:
+                    EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+                    filled: true,
+                    fillColor: Colors.grey[100],
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(15),
+                      borderSide: BorderSide.none,
+                    ),
+                    suffixIcon: IconButton(
+                      icon: Icon(Icons.send, color: Color(0xff780000)),
+                      onPressed: _sendMessage,
+                    ),
                   ),
                 ),
               ),
@@ -177,5 +207,23 @@ class _UserState extends State<User> {
         ),
       ),
     );
+  }
+
+  void _sendMessage() {
+    final text = _controller.text.trim();
+    if (text.isNotEmpty) {
+      setState(() {
+        _messages.add(text);
+        _controller.clear();
+      });
+
+      Future.delayed(Duration(milliseconds: 100)).then((_) {
+        _scrollController.animateTo(
+          _scrollController.position.maxScrollExtent,
+          duration: Duration(milliseconds: 300),
+          curve: Curves.easeOut,
+        );
+      });
+    }
   }
 }
