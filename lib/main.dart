@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:learn/auth/logo.dart';
-import 'auth/home.dart';
+
 import 'auth/login.dart';
 
 void main() {

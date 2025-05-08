@@ -6,6 +6,8 @@ import 'package:learn/auth/user.dart';
 import 'package:learn/auth/login.dart';
 
 class SignUpScreen extends StatefulWidget {
+  const SignUpScreen({Key? key}) : super(key: key);
+
   @override
   _SignUpScreenState createState() => _SignUpScreenState();
 }
@@ -26,9 +28,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
     try {
       final response = await http.post(
         Uri.parse(signUpApiUrl),
-        headers: {
-          'Content-Type': 'application/json; charset=UTF-8',
-        },
+        headers: {'Content-Type': 'application/json; charset=UTF-8'},
         body: jsonEncode({
           'username': _usernameController.text.trim(),
           'email': _emailController.text.trim(),
@@ -39,7 +39,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
       if (response.statusCode == 200 || response.statusCode == 201) {
         Navigator.pushReplacement(
           context,
-          MaterialPageRoute(builder: (context) => User()),
+          MaterialPageRoute(builder: (context) =>  User()),
         );
       } else {
         final data = jsonDecode(response.body);
@@ -61,12 +61,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
       if (account != null) {
         Navigator.pushReplacement(
           context,
-          MaterialPageRoute(builder: (context) => User()),
+          MaterialPageRoute(builder: (context) =>  User()),
         );
       }
     } catch (error) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Google Sign In Failed')),
+        const SnackBar(content: Text('Google Sign In Failed')),
       );
     }
   }
@@ -92,7 +92,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
               const SizedBox(height: 40),
               TextFormField(
                 controller: _usernameController,
-                cursorColor: Color(0xff780000),
+                cursorColor: const Color(0xff780000),
                 decoration: _inputDecoration("User Name", Icons.person),
                 validator: (value) => value!.isEmpty ? 'Enter a username' : null,
               ),
@@ -100,7 +100,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
               TextFormField(
                 controller: _emailController,
                 keyboardType: TextInputType.emailAddress,
-                cursorColor: Color(0xff780000),
+                cursorColor: const Color(0xff780000),
                 decoration: _inputDecoration("Email", Icons.email),
                 validator: (value) => value!.isEmpty || !value.contains('@') ? 'Enter valid email' : null,
               ),
@@ -108,14 +108,14 @@ class _SignUpScreenState extends State<SignUpScreen> {
               TextFormField(
                 controller: _passwordController,
                 obscureText: _obscurePassword,
-                cursorColor: Color(0xff780000),
+                cursorColor: const Color(0xff780000),
                 decoration: _inputDecoration(
                   "Password",
                   Icons.lock,
                   suffixIcon: IconButton(
                     icon: Icon(
                       _obscurePassword ? Icons.visibility : Icons.visibility_off,
-                      color: Color(0xff780000),
+                      color: const Color(0xff780000),
                     ),
                     onPressed: () {
                       setState(() {
@@ -130,8 +130,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
               ElevatedButton(
                 onPressed: () => _signUpUser(context),
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Color(0xff05064e),
-                  minimumSize: Size(300, 50),
+                  backgroundColor: const Color(0xff05064e),
+                  minimumSize: const Size(300, 50),
                 ),
                 child: const Text(
                   "Sign Up",
@@ -140,9 +140,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
               ),
               const SizedBox(height: 20),
               Row(
-                children: [
+                children: const [
                   Expanded(child: Divider()),
-                  const Padding(
+                  Padding(
                     padding: EdgeInsets.symmetric(horizontal: 8),
                     child: Text("OR"),
                   ),
@@ -155,7 +155,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.white,
                   elevation: 2,
-                  minimumSize: Size(350, 50),
+                  minimumSize: const Size(350, 50),
                 ),
                 child: RichText(
                   text: const TextSpan(
@@ -176,7 +176,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
               const SizedBox(height: 40),
               TextButton(
                 onPressed: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => Login()));
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => const Login()));
                 },
                 child: const Text.rich(
                   TextSpan(
